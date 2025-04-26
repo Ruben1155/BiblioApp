@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Acceso Denegado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">No tienes permiso para acceder a este recurso.</p>
+</header>
+
+@* Mostrar mensaje de error si viene en TempData *@
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-warning">@TempData["ErrorMessage"]</div>
+}
+
+<p>
+    Contacta al administrador del sistema si crees que esto es un error.
+</p>
+<p>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-primary">Volver al Inicio</a>
+    @* O podrías poner un botón de Logout si el usuario está logueado pero no es admin *@
+</p>

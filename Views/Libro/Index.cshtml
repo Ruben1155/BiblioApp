@@ -1,0 +1,109 @@
+﻿@model IEnumerable<BiblioApp.Models.LibroModel>
+
+@{
+    ViewData["Title"] = "Lista de Libros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Obtener los filtros actuales desde ViewData para usarlos en el formulario
+    string? currentTituloFilter = ViewData["CurrentTituloFilter"] as string;
+    string? currentAutorFilter = ViewData["CurrentAutorFilter"] as string;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@* Formulario de Búsqueda/Filtrado *@
+@* Envía los datos a la misma acción Index usando el método GET *@
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-sm-4">
+            <label for="tituloFilterInput" class="form-label visually-hidden">Filtrar por Título:</label>
+            @* Input para el filtro de título. El 'name' debe coincidir con el parámetro del controlador. *@
+            @* El 'value' se establece con el filtro actual desde ViewData. *@
+            <input type="text" id="tituloFilterInput" name="tituloFilter" value="@currentTituloFilter" class="form-control" placeholder="Buscar por Título..." />
+        </div>
+        <div class="col-sm-4">
+            <label for="autorFilterInput" class="form-label visually-hidden">Filtrar por Autor:</label>
+            @* Input para el filtro de autor. *@
+            <input type="text" id="autorFilterInput" name="autorFilter" value="@currentAutorFilter" class="form-control" placeholder="Buscar por Autor..." />
+        </div>
+        <div class="col-sm-auto">
+            <button type="submit" class="btn btn-info w-100">Buscar</button>
+        </div>
+        <div class="col-sm-auto">
+            @* Enlace para limpiar los filtros (vuelve a la acción Index sin parámetros) *@
+            <a asp-action="Index" class="btn btn-secondary w-100">Limpiar</a>
+        </div>
+    </div>
+</form>
+
+
+<p class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Agregar Libro</a>
+    @* Pasar filtros actuales a los botones de exportación si quieres exportar la lista filtrada *@
+    <a asp-action="ExportToPdf" asp-route-tituloFilter="@currentTituloFilter" asp-route-autorFilter="@currentAutorFilter" class="btn btn-outline-danger" target="_blank">Exportar a PDF</a>
+    <a asp-action="ExportToExcel" asp-route-tituloFilter="@currentTituloFilter" asp-route-autorFilter="@currentAutorFilter" class="btn btn-outline-success">Exportar a Excel</a>
+</p>
+
+@* Mostrar mensajes de éxito o error desde TempData *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().Titulo)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Autor)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Editorial)</th>
+                <th>@Html.DisplayNameFor(model => model.First().ISBN)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Anio)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Categoria)</th>
+                <th>@Html.DisplayNameFor(model => model.First().Existencias)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* Verificar si el modelo tiene elementos antes de iterar *@
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Titulo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Autor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Editorial)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Anio)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Categoria)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Existencias)</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalles</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center">No se encontraron libros con los filtros aplicados.</td> @* Mensaje actualizado *@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

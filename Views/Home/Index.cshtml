@@ -1,0 +1,48 @@
+﻿@* BiblioApp/Views/Home/Index.cshtml *@
+@* Modelo para esta vista es LoginViewModel *@
+@model BiblioApp.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    // No necesita especificar Layout si ya está en _ViewStart.cshtml
+    // Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <h2 class="text-center">@ViewData["Title"]</h2>
+        <hr />
+        @* Formulario que envía los datos a la acción Login (POST) del HomeController *@
+        <form asp-action="Login" method="post">
+            @* Muestra errores generales del modelo (ej. credenciales incorrectas) *@
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-floating mb-3">
+                @* Campo para el Correo *@
+                <input asp-for="Correo" class="form-control" placeholder="nombre@ejemplo.com" />
+                <label asp-for="Correo"></label>
+                <span asp-validation-for="Correo" class="text-danger"></span> @* Mensaje de error específico para Correo *@
+            </div>
+            <div class="form-floating mb-3">
+                @* Campo para la Clave *@
+                <input asp-for="Clave" type="password" class="form-control" placeholder="Clave" />
+                <label asp-for="Clave"></label>
+                <span asp-validation-for="Clave" class="text-danger"></span> @* Mensaje de error específico para Clave *@
+            </div>
+            @* Incluir el token AntiForgery para seguridad *@
+            @Html.AntiForgeryToken()
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </div>
+            <div class="text-center mt-3">
+                <a asp-action="Register" asp-controller="Home">¿No tienes cuenta? Regístrate aquí</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Sección para cargar scripts de validación del lado del cliente *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

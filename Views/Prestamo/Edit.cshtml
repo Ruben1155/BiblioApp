@@ -1,0 +1,79 @@
+﻿@section Scripts {
+@{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+    @* Esta vista se usa principalmente para marcar un préstamo como devuelto *@
+@model BiblioApp.Models.PrestamoModel
+
+    @{
+    ViewData["Title"] = "Registrar Devolución";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Préstamo ID: @Model.Id</h4>
+<hr />
+
+@* Mostrar información del préstamo (no editable) *@
+<dl class="row">
+    <dt class="col-sm-3">Usuario ID</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(model => model.IdUsuario)</dd> @* Idealmente mostrar nombre *@
+
+    <dt class="col-sm-3">Libro ID</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(model => model.IdLibro)</dd> @* Idealmente mostrar título *@
+
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaPrestamo)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(model => model.FechaPrestamo)</dd>
+
+    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FechaDevolucionEsperada)</dt>
+    <dd class="col-sm-9">@Html.DisplayFor(model => model.FechaDevolucionEsperada)</dd>
+</dl>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* Campos ocultos para enviar datos necesarios que no se editan directamente *@
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="IdUsuario" />
+            <input type="hidden" asp-for="IdLibro" />
+            <input type="hidden" asp-for="FechaPrestamo" />
+            <input type="hidden" asp-for="FechaDevolucionEsperada" />
+
+            <div class="mb-3">
+                <label asp-for="FechaDevolucionReal" class="form-label"></label>
+                <input asp-for="FechaDevolucionReal" class="form-control" type="date" />
+                <span asp-validation-for="FechaDevolucionReal" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Estado" class="form-label"></label>
+                @* Permitir seleccionar solo estados relevantes para la devolución *@
+                <select asp-for="Estado" class="form-select">
+                    @* <option value="Pendiente">Pendiente</option> *@ @* No debería volver a pendiente desde aquí *@
+                    <option value="Devuelto">Devuelto</option>
+                    <option value="Atrasado">Atrasado</option> @* Permitir marcar como atrasado si es necesario *@
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+
+            @Html.AntiForgeryToken()
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-success">Guardar Devolución</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,74 @@
+﻿@model BiblioApp.Models.UsuarioModel
+
+@{
+    ViewData["Title"] = "Crear Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Nuevo Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @* Ajusta el ancho de la columna del formulario *@
+        @* Formulario que enviará los datos a la acción Create del UsuarioController vía POST *@
+        <form asp-action="Create" method="post">
+            @* Muestra un resumen de los errores de validación del modelo *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @* Campos del formulario para cada propiedad del UsuarioModel *@
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span> @* Muestra errores de validación para este campo *@
+            </div>
+            <div class="mb-3">
+                <label asp-for="Apellido" class="form-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Correo" class="form-label"></label>
+                <input asp-for="Correo" class="form-control" type="email" /> @* Sugerir tipo email al navegador *@
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Telefono" class="form-label"></label>
+                <input asp-for="Telefono" class="form-control" type="tel" /> @* Sugerir tipo tel *@
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="TipoUsuario" class="form-label"></label>
+                @* Podrías usar un <select> si tienes tipos predefinidos *@
+                @* Ejemplo con select:
+                 <select asp-for="TipoUsuario" class="form-select">
+                     <option value="">Seleccione un tipo...</option>
+                     <option value="Estudiante">Estudiante</option>
+                     <option value="Docente">Docente</option>
+                     <option value="Administrador">Administrador</option>
+                     <option value="Otro">Otro</option>
+                 </select>
+                *@
+                <input asp-for="TipoUsuario" class="form-control" />
+                <span asp-validation-for="TipoUsuario" class="text-danger"></span>
+            </div>
+            @* NO incluir campo para la contraseña aquí, ya que BiblioApp no la maneja al crear/editar *@
+
+            @* Incluir el token AntiForgery para seguridad *@
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Crear</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Sección para incluir los scripts de validación del lado del cliente *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,31 @@
+﻿@model BiblioApp.Models.LibroModel
+
+@{
+    ViewData["Title"] = "Eliminar Libro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3 class="text-danger">¿Estás seguro de que quieres eliminar este libro?</h3>
+<div>
+    <h4>Libro</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Titulo)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Titulo)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Autor)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Autor)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ISBN)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.ISBN)</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        @* Asegurar que el método sea POST *@
+        @* Campo oculto para el ID *@
+        <input type="hidden" asp-for="Id" />
+        @Html.AntiForgeryToken() @* Incluir token anti-falsificación *@
+        <button type="submit" class="btn btn-danger">Eliminar</button> |
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

@@ -1,0 +1,86 @@
+﻿@* BiblioApp/Views/Home/Register.cshtml *@
+@model BiblioApp.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Registro de Nuevo Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Usa el layout principal
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        @* Ajusta el ancho si necesitas más o menos espacio *@
+        <h2 class="text-center">@ViewData["Title"]</h2>
+        <hr />
+
+        @* Formulario que envía los datos a la acción Register (POST) del HomeController *@
+        <form asp-action="Register" method="post">
+            @* Muestra un resumen de errores de validación y errores generales del ModelState *@
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Apellido" class="form-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Correo" class="form-label"></label>
+                <input asp-for="Correo" class="form-control" type="email" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Telefono" class="form-label"></label>
+                <input asp-for="Telefono" class="form-control" type="tel" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TipoUsuario" class="form-label"></label>
+                @* Usar un <select> es mejor para tipos predefinidos *@
+                <select asp-for="TipoUsuario" class="form-select">
+                    <option value="">-- Seleccione Tipo --</option>
+                    <option value="Estudiante">Estudiante</option>
+                    <option value="Docente">Docente</option>
+                    @* No permitir registrarse como Administrador desde aquí por seguridad *@
+                    <option value="Administrador">Administrador</option>
+                    <option value="Otro">Otro</option>
+                </select>
+                <span asp-validation-for="TipoUsuario" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Clave" class="form-label"></label>
+                <input asp-for="Clave" class="form-control" type="password" />
+                <span asp-validation-for="Clave" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfirmarClave" class="form-label"></label>
+                <input asp-for="ConfirmarClave" class="form-control" type="password" />
+                <span asp-validation-for="ConfirmarClave" class="text-danger"></span>
+            </div>
+
+            @* Incluir el token AntiForgery para seguridad *@
+            @Html.AntiForgeryToken()
+
+            <div class="d-grid gap-2 mt-4">
+                @* Usar d-grid para botones de ancho completo *@
+                <button type="submit" class="btn btn-primary">Registrarse</button>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-link">¿Ya tienes cuenta? Inicia Sesión</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Sección para incluir los scripts de validación del lado del cliente *@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,59 @@
+﻿@model BiblioApp.Models.PrestamoModel
+@using Microsoft.AspNetCore.Mvc.Rendering; // Necesario para SelectList
+
+@{
+    ViewData["Title"] = "Registrar Préstamo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Nuevo Préstamo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="IdUsuario" class="form-label">Usuario</label>
+                @* Dropdown para seleccionar Usuario. CASTING AÑADIDO AQUÍ *@
+                <select asp-for="IdUsuario" class="form-select" asp-items="@(ViewBag.UsuariosList as SelectList)">
+                    <option value="">-- Seleccione un Usuario --</option>
+                </select>
+                <span asp-validation-for="IdUsuario" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="IdLibro" class="form-label">Libro (Disponibles)</label>
+                @* Dropdown para seleccionar Libro. CASTING AÑADIDO AQUÍ *@
+                <select asp-for="IdLibro" class="form-select" asp-items="@(ViewBag.LibrosList as SelectList)">
+                    <option value="">-- Seleccione un Libro --</option>
+                </select>
+                <span asp-validation-for="IdLibro" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FechaDevolucionEsperada" class="form-label"></label>
+                @* Usar ToShortDateString() o formateo específico para el valor inicial si es necesario *@
+                <input asp-for="FechaDevolucionEsperada" class="form-control" type="date" value="@Model.FechaDevolucionEsperada.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="FechaDevolucionEsperada" class="text-danger"></span>
+            </div>
+
+            @* El estado se asigna en el controlador, no se selecciona aquí *@
+            @* La FechaPrestamo se asigna en la BD/API *@
+
+            @Html.AntiForgeryToken()
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

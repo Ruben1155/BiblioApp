@@ -1,0 +1,34 @@
+﻿@model BiblioApp.Models.PrestamoModel
+
+@{
+    ViewData["Title"] = "Eliminar Préstamo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3 class="text-danger">¿Estás seguro de que quieres eliminar este préstamo?</h3>
+<div>
+    <h4>Préstamo ID: @Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">Usuario ID</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.IdUsuario)</dd> @* Mostrar nombre idealmente *@
+
+        <dt class = "col-sm-3">Libro ID</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.IdLibro)</dd> @* Mostrar título idealmente *@
+
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.FechaPrestamo)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.FechaPrestamo)</dd>
+
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Estado)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Estado)</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-danger">Eliminar</button> |
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

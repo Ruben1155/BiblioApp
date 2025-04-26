@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiblioApp", "BiblioApp.csproj", "{8524EF6D-B8EC-4ECE-9495-957DB5D44BA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8524EF6D-B8EC-4ECE-9495-957DB5D44BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8524EF6D-B8EC-4ECE-9495-957DB5D44BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8524EF6D-B8EC-4ECE-9495-957DB5D44BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8524EF6D-B8EC-4ECE-9495-957DB5D44BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85848CD1-C680-44D7-BA3A-E96F7EE6D9BF}
+	EndGlobalSection
+EndGlobal

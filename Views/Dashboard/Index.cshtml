@@ -1,0 +1,87 @@
+﻿@* BiblioApp/Views/Dashboard/Index.cshtml *@
+@model BiblioApp.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard de Control";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+@* Mostrar mensaje de error si TempData lo contiene (ej. error al cargar datos) *@
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+@* Mostrar los contadores usando tarjetas (cards) de Bootstrap *@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @* 1 columna en pequeño, 3 en mediano y más grande, con espaciado (gutter) *@
+
+    @* Tarjeta para Libros *@
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            @* h-100 para misma altura, shadow-sm para sombra sutil *@
+            <div class="card-body text-center">
+                @* Podrías añadir un icono aquí: <i class="bi bi-book h1 text-primary mb-3"></i> *@
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.TotalLibros)</h5>
+                @if (Model.TotalLibros >= 0)
+                {
+                    <p class="card-text fs-2 fw-bold">@Model.TotalLibros</p>
+                    <a asp-action="Index" asp-controller="Libro" class="btn btn-outline-primary btn-sm">Gestionar Libros</a>
+                }
+                else
+                {
+                    <p class="card-text text-danger">Error al cargar</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* Tarjeta para Usuarios *@
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                @* Icono: <i class="bi bi-people h1 text-success mb-3"></i> *@
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.TotalUsuarios)</h5>
+                @if (Model.TotalUsuarios >= 0)
+                {
+                    <p class="card-text fs-2 fw-bold">@Model.TotalUsuarios</p>
+                    <a asp-action="Index" asp-controller="Usuario" class="btn btn-outline-success btn-sm">Gestionar Usuarios</a>
+                }
+                else
+                {
+                    <p class="card-text text-danger">Error al cargar</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* Tarjeta para Préstamos Activos *@
+    <div class="col">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                @* Icono: <i class="bi bi-arrow-repeat h1 text-warning mb-3"></i> *@
+                <h5 class="card-title">@Html.DisplayNameFor(model => model.PrestamosActivos)</h5>
+                @if (Model.PrestamosActivos >= 0)
+                {
+                    <p class="card-text fs-2 fw-bold">@Model.PrestamosActivos</p>
+                    <a asp-action="Index" asp-controller="Prestamo" class="btn btn-outline-warning btn-sm">Gestionar Préstamos</a>
+                }
+                else
+                {
+                    <p class="card-text text-danger">Error al cargar</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    @* Podrías añadir más tarjetas aquí si calculas más datos *@
+
+</div>
+
+@* Añadir referencia a iconos si los usas en las tarjetas:
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+*@

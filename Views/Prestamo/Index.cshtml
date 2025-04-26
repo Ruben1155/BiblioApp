@@ -1,0 +1,117 @@
+﻿@model IEnumerable<BiblioApp.Models.PrestamoModel>
+
+@{
+    ViewData["Title"] = "Lista de Préstamos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Registrar Nuevo Préstamo</a>
+    @* --- BOTONES DE EXPORTACIÓN AÑADIDOS --- *@
+    <a asp-action="ExportToPdf" class="btn btn-outline-danger" target="_blank">Exportar a PDF</a>
+    <a asp-action="ExportToExcel" class="btn btn-outline-success">Exportar a Excel</a>
+</p>
+
+@* Mostrar mensajes de éxito o error desde TempData *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    @* Idealmente mostrar Nombre Usuario y Título Libro si el modelo los incluye *@
+                    @* @Html.DisplayNameFor(model => model.First().NombreUsuario) *@
+                    Usuario ID
+                </th>
+                <th>
+                    @* @Html.DisplayNameFor(model => model.First().TituloLibro) *@
+                    Libro ID
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().FechaPrestamo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().FechaDevolucionEsperada)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().FechaDevolucionReal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Estado)
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+    @* Verificar si el modelo tiene elementos antes de iterar *@
+    @if (Model != null && Model.Any())
+    {
+        @foreach (var item in Model) {
+                @* Aplicar clase CSS condicional a la fila según el estado *@
+                <tr class="@(item.Estado == "Atrasado" ? "table-danger" : (item.Estado == "Devuelto" ? "table-success" : ""))">
+                    <td>
+                        @* @Html.DisplayFor(modelItem => item.NombreUsuario) (@Html.DisplayFor(modelItem => item.IdUsuario)) *@
+                         @Html.DisplayFor(modelItem => item.IdUsuario)
+                    </td>
+                    <td>
+                         @* @Html.DisplayFor(modelItem => item.TituloLibro) (@Html.DisplayFor(modelItem => item.IdLibro)) *@
+                         @Html.DisplayFor(modelItem => item.IdLibro)
+                    </td>
+                    <td>
+                        @* Formatear las fechas para mejor legibilidad *@
+                        @item.FechaPrestamo.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @item.FechaDevolucionEsperada.ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @* Mostrar fecha solo si tiene valor *@
+                        @(item.FechaDevolucionReal.HasValue ? item.FechaDevolucionReal.Value.ToString("dd/MM/yyyy") : "")
+                    </td>
+                    <td>
+                        @* Usar un badge para el estado *@
+                        <span class="badge @(item.Estado == "Pendiente" ? "bg-warning text-dark" : (item.Estado == "Devuelto" ? "bg-success" : "bg-danger"))">
+                             @Html.DisplayFor(modelItem => item.Estado)
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            @* Mostrar botón "Devolver" solo si está pendiente o atrasado *@
+                            @if (item.Estado == "Pendiente" || item.Estado == "Atrasado")
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">Devolver</a>
+                            }
+                            @* Siempre mostrar botón para eliminar (o podrías restringirlo) *@
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                            @* Podrías añadir un botón de Detalles si creas la vista Details.cshtml *@
+                            @* <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalles</a> *@
+                        </div>
+                    </td>
+                </tr>
+        }
+    }
+     else
+    {
+        <tr>
+            <td colspan="7" class="text-center">No hay préstamos para mostrar.</td> @* Ajustado colspan a 7 *@
+        </tr>
+    }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,63 @@
+﻿@model BiblioApp.Models.LibroModel
+@{
+    ViewData["Title"] = "Agregar Libro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4>Libro</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            @* Asegurar que el método sea POST *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Titulo" class="form-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Autor" class="form-label"></label>
+                <input asp-for="Autor" class="form-control" />
+                <span asp-validation-for="Autor" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Editorial" class="form-label"></label>
+                <input asp-for="Editorial" class="form-control" />
+                <span asp-validation-for="Editorial" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ISBN" class="form-label"></label>
+                <input asp-for="ISBN" class="form-control" />
+                <span asp-validation-for="ISBN" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Anio" class="form-label"></label>
+                <input asp-for="Anio" class="form-control" type="number" /> <span asp-validation-for="Anio" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Categoria" class="form-label"></label>
+                <input asp-for="Categoria" class="form-control" />
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Existencias" class="form-label"></label>
+                <input asp-for="Existencias" class="form-control" type="number" /> <span asp-validation-for="Existencias" class="text-danger"></span>
+            </div>
+
+            @Html.AntiForgeryToken() @* Incluir token anti-falsificación *@
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Crear</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

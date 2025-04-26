@@ -1,0 +1,38 @@
+﻿@model BiblioApp.Models.LibroModel
+@{
+    ViewData["Title"] = "Detalles del Libro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Libro</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Titulo)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Titulo)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Autor)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Autor)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Editorial)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Editorial)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ISBN)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.ISBN)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Anio)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Anio)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Categoria)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Categoria)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Existencias)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Existencias)</dd>
+    </dl>
+</div>
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+</div>
